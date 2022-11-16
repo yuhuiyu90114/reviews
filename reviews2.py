@@ -1,26 +1,39 @@
+import time
+import progressbar
+
+
 def read_file(filename):
 	lines = []
-	with open('reviews.txt', 'r') as f:
+	count = 0
+	bar = progressbar.ProgressBar(max_value=1000000)	
+	with open(filename, 'r') as f:
 		for line in f:
 			lines.append(line)
+			count += 1
+			bar.update(count)
 	return lines
 
+
 def count_file(lines):
+# 	start_time = time.time()	
 	wc = {}
 	for line in lines:
-		words = line.split(' ')
+		words = line.split()
 		for word in words:
 			if word in wc:
 				wc[word] += 1
 			else:
 				wc[word] = 1
+#	end_time = time.time()				
+#	time = end_time - start_time
+#	print('花了{}秒'.format(time))
 	return wc
 
 
 def print_file(wc):
 	for word in wc:
 		if wc[word] > 1000000:
-			print(word, wc[word])
+			print('{} {:,}'.format(word, wc[word]))
 	print(len(wc))
 
 
